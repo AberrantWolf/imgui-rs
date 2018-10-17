@@ -18,5 +18,5 @@ gfx = { version = "0.17", optional = true }
 imgui-sys = { version = "0.0.22-pre", path = "imgui-sys" }
 
 [workspace]
-members = ["imgui-examples", "imgui-sys", "imgui-gfx-renderer", "imgui-glium-renderer", "imgui-glutin-support"]
-exclude = ["imgui-sys-bindgen"]
+members = ["imgui-sys"]
+exclude = ["imgui-sys-bindgen", "imgui-examples", "imgui-sys", "imgui-gfx-renderer", "imgui-glium-renderer", "imgui-glutin-support"]
