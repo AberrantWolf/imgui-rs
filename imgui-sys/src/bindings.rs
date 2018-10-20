@@ -6434,6 +6434,9 @@ extern "C" {
     pub fn ImFontAtlas_ImFontAtlas() -> *mut ImFontAtlas;
 }
 extern "C" {
+    pub fn ImFontAtlas_destroy(self_: *mut ImFontAtlas);
+}
+extern "C" {
     pub fn ImFontAtlas_AddFont(
         self_: *mut ImFontAtlas,
         font_cfg: *const ImFontConfig,

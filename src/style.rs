@@ -6,6 +6,7 @@ use sys;
 pub struct Style(pub sys::ImGuiStyle);
 
 impl Style {
+    /// Scales all sizes in the style
     pub fn scale_all_sizes(&mut self, scale_factor: f32) {
         unsafe {
             sys::ImGuiStyle_ScaleAllSizes(&mut self.0, scale_factor);
@@ -33,6 +34,9 @@ impl Style {
         }
         self
     }
+}
+
+impl Style {
     pub fn alpha(&self) -> f32 {
         self.0.Alpha
     }
@@ -245,6 +249,17 @@ impl Style {
     }
 }
 
+impl Style {
+    /// Returns an immutable reference to the underlying raw Dear ImGui style
+    pub fn raw(&self) -> &sys::ImGuiStyle {
+        &self.0
+    }
+    /// Returns a mutable reference to the underlying raw Dear ImGui style
+    pub fn raw_mut(&mut self) -> &mut sys::ImGuiStyle {
+        &mut self.0
+    }
+}
+
 /// A color identifier for styling
 #[repr(u32)]
 #[derive(Copy, Clone, Debug, Hash, Eq, PartialEq)]
@@ -380,7 +395,7 @@ pub enum StyleVar {
 #[test]
 fn test_style_scaling() {
     let (_guard, mut ctx) = ::test::test_ctx();
-    let mut style = ctx.style();
+    let style = ctx.style();
     style
         .set_window_padding((1.0, 2.0))
         .set_window_rounding(3.0)

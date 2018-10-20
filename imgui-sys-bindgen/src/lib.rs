@@ -85,7 +85,8 @@ pub fn generate_bindings<P: AsRef<Path>>(cimgui_path: &P) -> Result<Bindings, Er
         .derive_debug(true)
         .impl_debug(true)
         .rustfmt_bindings(true)
-        .clang_arg("-DCIMGUI_DEFINE_ENUMS_AND_STRUCTS=1");
+        .clang_arg("-DCIMGUI_DEFINE_ENUMS_AND_STRUCTS=1")
+        .whitelist_function("ImFontAtlas_destroy");
     for e in whitelist.structs {
         builder = builder.whitelist_type(format!("^{}", e));
     }
