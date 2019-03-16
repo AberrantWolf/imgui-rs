@@ -290,6 +290,12 @@ impl<'a> ImFont<'a> {
     pub fn display_offset(&self) -> (f32, f32) {
         unsafe { (*self.font).display_offset.into() }
     }
+
+    pub fn push(&self) {
+        unsafe {
+            sys::igPushFont(self.font);
+        }
+    }
 }
 
 /// A handle to imgui's font manager.
@@ -371,7 +377,7 @@ impl<'a> ImFontAtlas<'a> {
     /// ======
     ///
     /// Panics if the index is out of range.
-    pub fn index_font(&mut self, index: usize) -> ImFont {
+    pub fn index_font(&self, index: usize) -> ImFont {
         let fonts = unsafe { (*self.atlas).fonts.as_slice() };
         assert!(index < fonts.len(), "Font index is out of range.");
         unsafe { ImFont::from_ptr(fonts[index]) }

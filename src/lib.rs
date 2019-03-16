@@ -153,6 +153,18 @@ impl ImGui {
     pub fn fonts(&mut self) -> ImFontAtlas {
         unsafe { ImFontAtlas::from_ptr(self.io_mut().fonts) }
     }
+    pub fn push_font(&self, index: usize) {
+        unsafe {
+            let fonts = ImFontAtlas::from_ptr(self.io().fonts);
+            let font = fonts.index_font(index);
+            font.push();
+        }
+    }
+    pub fn pop_font(&self) {
+        unsafe {
+            sys::igPopFont();
+        }
+    }
     pub fn prepare_texture<'a, F, T>(&mut self, f: F) -> T
     where
         F: FnOnce(TextureHandle<'a>) -> T,
@@ -1600,6 +1612,15 @@ impl<'ui> Ui<'ui> {
         self.with_style_vars(style_vars, || {
             self.with_color_vars(color_vars, f);
         });
+    }
+}
+
+impl<'ui> Ui<'ui> {
+    /// Runs a function after temporarily pushing a fint index to the stack.
+    pub fn with_font<F: FnOnce()>(&self, index: usize, f: F) {
+        self.imgui.push_font(index);
+        f();
+        self.imgui.pop_font();
     }
 }
 

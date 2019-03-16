@@ -79,7 +79,8 @@ pub fn run<F: FnMut(&Ui) -> bool>(title: String, clear_color: [f32; 4], mut run_
             .oversample_h(1)
             .pixel_snap_h(true)
             .size_pixels(font_size)
-            .rasterizer_multiply(1.75),
+            .rasterizer_multiply(1.75)
+            .merge_mode(false),
         &FontGlyphRange::japanese(),
     );
 
