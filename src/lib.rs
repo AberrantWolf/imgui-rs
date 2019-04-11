@@ -683,6 +683,13 @@ impl<'ui> Ui<'ui> {
         unsafe { sys::igSpacing() };
     }
 
+    pub fn indent(&self, indent_w: f32) {
+        unsafe { sys::igIndent(indent_w) }
+    }
+    pub fn unindent(&self, indent_w: f32) {
+        unsafe { sys::igUnindent(indent_w) }
+    }
+
     pub fn columns<'p>(&self, count: i32, id: &'p ImStr, border: bool) {
         unsafe { sys::igColumns(count, id.as_ptr(), border) }
     }
@@ -1616,11 +1623,21 @@ impl<'ui> Ui<'ui> {
 }
 
 impl<'ui> Ui<'ui> {
-    /// Runs a function after temporarily pushing a fint index to the stack.
+    /// Runs a function after temporarily pushing a font index to the stack.
     pub fn with_font<F: FnOnce()>(&self, index: usize, f: F) {
         self.imgui.push_font(index);
         f();
         self.imgui.pop_font();
+    }
+    pub fn get_font_size(&self) -> f32 {
+        unsafe { sys::igGetFontSize() }
+    }
+}
+
+impl<'ui> Ui<'ui> {
+    /// Returns the color for the specified color enum value
+    pub fn get_color(&self, idx: ImGuiCol) -> ImColor {
+        unsafe { sys::igGetColorU32(idx, 1.0).into() }
     }
 }
 
